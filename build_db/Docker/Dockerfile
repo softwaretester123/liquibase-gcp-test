@@ -1,0 +1,4 @@
+FROM postgres:latest
+ENV POSTGRES_PASSWORD pgadmin
+ENV POSTGRES_DB pgadmin
+EXPOSE 5432

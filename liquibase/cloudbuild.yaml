@@ -1,0 +1,8 @@
+steps:
+    - name: gcr.io/cloud-builders/gke-deploy
+      id: say-hello
+      entrypoint: bash
+      args:
+          - '-c'
+          - >-
+          - echo "hello"
