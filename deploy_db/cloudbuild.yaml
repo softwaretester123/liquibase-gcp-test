@@ -1,0 +1,28 @@
+steps:
+  - name: 'gcr.io/cloud-builders/git'
+    env:
+      - branch=$BRANCH_NAME
+    args:
+      - '-eEuo'
+      - pipefail
+      - '-c'
+      - |-
+        echo ${branch}
+        git clone --single-branch --depth=1 -b ${branch} https://github.com/softwaretester123/liquibase-gcp-test.git
+    id: get_repo
+    entrypoint: bash
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'container'
+      - 'clusters'
+      - 'get-credentials'
+      - 'liquibase'
+      - '--zone=us-east4-a'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'apply'
+      - '-f'
+      - 'deploy_db/template/template.yaml'
+      - '--project=playground-s-11-f66b8fa2'
+      - '--cluster=liquibase'
+      - '--zone=us-east4-a'
